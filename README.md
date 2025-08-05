@@ -2,10 +2,10 @@
 
 A web-based tool to analyze WhatsApp group chat exports and generate comprehensive statistics.
 
-![Chat Browser and Rankings](screenshot1.png)
+![Chat Browser and Rankings](img1.png)
 *Chat browser with search functionality and top contributors ranking*
 
-![Activity Histogram and Statistics](screenshot2.png)
+![Activity Histogram and Statistics](img2.png)
 *Activity histogram showing daily/hourly patterns and message statistics*
 
 ## Features
