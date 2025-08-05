@@ -131,8 +131,19 @@
             const unregisteredNumbers = new Set();
             const userMessages = {};
 
-            // Parse messages
-            const oneMonthAgo = new Date();
+            // Parse messages - find last message date first
+            let lastMessageDate = null;
+            lines.forEach(line => {
+                const match = line.match(/^(\d{1,2}\/\d{1,2}\/\d{2,4}),\s(\d{1,2}:\d{2})\s-\s(.+?):\s(.*)$/);
+                if (match) {
+                    const messageDate = new Date(match[1]);
+                    if (!lastMessageDate || messageDate > lastMessageDate) {
+                        lastMessageDate = messageDate;
+                    }
+                }
+            });
+            
+            const oneMonthAgo = lastMessageDate ? new Date(lastMessageDate) : new Date();
             oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
             
             lines.forEach(line => {
@@ -272,7 +283,7 @@
                 <p><strong>Text Messages:</strong> ${messages.length - mediaMessages}</p>
                 <p><strong>Media Messages:</strong> ${mediaMessages}</p>
                 <p><strong>Avg Words/Message:</strong> ${(Object.values(users).reduce((sum, u) => sum + u.words, 0) / messages.length).toFixed(1)}</p>
-                <p><strong>Most Active Time:</strong> ${Object.entries(hourlyActivity).reduce((a,b) => hourlyActivity[a[0]] > hourlyActivity[b[0]] ? a : b)[0]}</p>
+                <p><strong>Most Active Time:</strong> ${Object.keys(hourlyActivity).length > 0 ? Object.entries(hourlyActivity).reduce((a,b) => hourlyActivity[a[0]] > hourlyActivity[b[0]] ? a : b)[0] : 'No data'}</p>
             `;
 
 
